@@ -1,0 +1,1 @@
+1. Embedded struct fields are promoted for field access. but the embedded struct must be initialized explicitly

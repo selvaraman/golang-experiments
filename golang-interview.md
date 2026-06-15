@@ -213,6 +213,18 @@ GC:
 Stop The World, Trie-Color-Marking - Terminate STW - Reclaim the memory marked white.
 https://rugu.dev/en/blog/understanding-go-gc/
 
+Race Condition:
+--------------
+sync.Mutex => mu.Lock(), mu.Unlock()
+
+sync.RWMutex => mu.RLock(), mu.RUnlock() => Read Heavy workload
+=> Allows multipel readers
+
+sync/atomic => AddInt64, LoadInt64 => shared state access without lock
+=> hardware-supported atomic CPU instructions
+=> Limited only Integers and Pointers
+=> atomic operations are limited. Add/Sub/Store/CompareAndSwap/Swap/Load
+
 Idiomatic Go Guide:
 -------------------
 https://learning.christofherkost.org/

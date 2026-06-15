@@ -1,0 +1,50 @@
+Interface is a type that defines a set of method signatures.
+Any type that implements these methods automatically implements interface.
+
+Uses:
+----
+Abstraction - hide implementation details.
+Polymorphism - work with different types through a common interface.
+Loose coupling - depend on behavior instead of concrete types.
+Testing - easily create mocks for unit tests.
+
+Empty Interface (eface):
+------------------------
+type eface struct {
+    _type *_type  //pointer to type metadata (describes "int", "string", etc.
+    data  unsafe.Pointer  // pointer to the actual value
+}
+
+Non-Empty Interface (iface):
+---------------------------
+type iface struct {
+    tab  *itab
+    data unsafe.Pointer
+}
+
+
+type itab struct {
+    inter *interfacetype
+    _type *_type
+    fun   [...]
+}
+
+=> No partial implementation of interface methods
+=> func Flexible(x interface{})  ==== func orLikeThis(x any)   => built-in type any = interface{}
+=>  %T to print type
+=> Type Assertions - t, ok := i.(T)
+=> Interfaces can embed other interfaces
+
+type Reader interface {
+	Read()
+}
+
+type Writer interface {
+	Write()
+}
+
+type ReadWriter interface {
+	Reader // embedded interface
+	Writer // embedded interface
+}
+
