@@ -112,7 +112,11 @@ May 7, 2026
 time.NewTimer / time.NewTicker
 ------------------------------
 time.NewTimer => executes only once {timer.Stop}
+timer := time.NewTimer(3 * time.Second)
+<-timer.C
+
 time.NewTicker => repeated execution {ticker.Stop, ticker.Reset}
+ticker := time.NewTicker(1 * time.Second)
 
 Channel:
 -------
@@ -165,6 +169,10 @@ func info[T creature](t T) string {
 
 errors:
 ------
+type error interface {
+    Error() string
+}
+
 func (e errorStruct) Error() string {
 errors.New
 errors.As
@@ -173,6 +181,20 @@ Sentinel Error(errors.Is) vs Wrapped Error(errors.As)
 var ErrNotFound = errors.New("not found") ==> Sentinel Error
 fmt.Errorf("user lookup failed: %w", ErrNotFound) ==> Wrapped Error
 fmt.Println(errors.New("host not provided") == errors.New("host not provided")) => pointer comparision returns false. everytime it creates new object.
+
+enum:
+----
+const (
+	A = iota // 0
+	B        // 1
+	C        // 2
+)
+
+const (
+	a int = iota // 0
+	b            // 1
+	c            // 2
+)
 
 new vs make (allocates in heap):
 -------------------------------
@@ -217,8 +239,13 @@ Race Condition:
 --------------
 sync.Mutex => mu.Lock(), mu.Unlock()
 
-sync.RWMutex => mu.RLock(), mu.RUnlock() => Read Heavy workload
+sync.RWMutex => mu.RLock(), mu.RUnlock(), mu.Lock(), mu.Unlock() => Read Heavy workload
 => Allows multipel readers
+RLock() = people reading books.
+Lock() = librarian updating the catalog.
+Many readers can read together
+While the librarian is updating, nobody can read
+While readers are reading, the librarian waits.
 
 sync/atomic => AddInt64, LoadInt64 => shared state access without lock
 => hardware-supported atomic CPU instructions

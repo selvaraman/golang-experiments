@@ -1,0 +1,31 @@
+1. c.JSON():
+------------
+c.JSON(http.StatusOK, gin.H{"status": "success"})
+
+2. c.String:
+-----------
+c.String(http.StatusOK, "Hello World")
+
+3. c.Redirect:
+--------------
+c.Redirect(http.StatusMovedPermanently, "https://google.com")
+
+4. c.DataFromReader:
+-------------------
+file, _ := os.Open("large.zip")
+c.DataFromReader( http.StatusOK, -1, "application/zip", file, nil, )
+
+5. c.Redirect:
+--------------
+c.Redirect(http.StatusMovedPermanently, "https://google.com")
+
+6. c.Status:
+------------
+c.Status(http.StatusNoContent)
+
+7. c.File:
+---------
+c.File("files/OperatingSystemsThreeEasyPieces.pdf")
+
+8. c.FileAttachment:
+-------------------
