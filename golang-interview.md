@@ -36,11 +36,14 @@ String:
 for index, rune := range str {
 strings are equivalent to []byte
 
+byte - 1 byte - uint8
+rune - 4 bytes - int32
+
 range:
 ------
 when ranging map, slice, go knows when the range is done, knows length of the map or slice
 you can also range channel.
-but ranging channel, go does not know when the channel done being sent. solve this using defer
+but ranging channel, go does not know when the channel done being sent. solve this using close channel
 
 struct
 ------
@@ -118,10 +121,36 @@ timer := time.NewTimer(3 * time.Second)
 time.NewTicker => repeated execution {ticker.Stop, ticker.Reset}
 ticker := time.NewTicker(1 * time.Second)
 
+Context:
+-------
+=> is a type which carries deadlines, cancellation signal and request scoped values
+=> not calling the `cancel` function can cause a "context leak"
+
 Channel:
 -------
 How to check a chennel is closed -  comma, ok idiom
 msg, ok := <-ch
+
+select:
+------
+select{} => blocks forever without consuming cpu
+for {} => consumes cpu
+
+defer:
+------
+1. calls at end of the function. regardless of - exited normally or runtime panic
+2. usefull for releasing resources. ex: file handles, database connection, mutex locks
+3. if multiple defer used, it will be executed Last-In-First-Out order 
+
+panic:
+-----
+1. stops the execution of the program
+2. starts unwinding the stack, and runs any defer function
+3. panic statement executes after all defer methhods
+
+recover:
+------
+- catch and handle panic
 
 Generics:
 ---------
@@ -252,6 +281,19 @@ sync/atomic => AddInt64, LoadInt64 => shared state access without lock
 => Limited only Integers and Pointers
 => atomic operations are limited. Add/Sub/Store/CompareAndSwap/Swap/Load
 
+sync.Once:
+---------
+var once sync.Once
+onceBody := func() {
+	fmt.Println("Only once")
+}
+once.Do(onceBody)
+
+Type Conversion vs Type Assertion:
+---------------------------------
+Type Conversion => Convert one type to another. Ex: float64(i)
+Type Assertion => Extract concrete type from interface. Ex. x.(string)
+
 Idiomatic Go Guide:
 -------------------
 https://learning.christofherkost.org/
@@ -260,3 +302,9 @@ https://learning.christofherkost.org/
 For Dev:
 -------
 https://github.com/Melkeydev/go-blueprint
+
+Debug:
+------
+Delve
+go run -race main.go - Race Detector
+go tool pprof - Performance Profiling

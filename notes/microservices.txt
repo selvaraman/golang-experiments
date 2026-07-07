@@ -1,0 +1,1 @@
+1. Your microservice needs to transfer 500 MB video files to another service. which approch would you follow ?

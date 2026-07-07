@@ -1,4 +1,4 @@
-type Stringer interface {
+1. type Stringer interface {
 	String() string
 }
 
